@@ -1,0 +1,20 @@
+{
+  "doctype": "Report",
+  "name": "AX Callback Queue",
+  "report_name": "AX Callback Queue",
+  "module": "AlphaX Calling",
+  "ref_doctype": "Lead",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "roles": [
+    {
+      "role": "Sales User"
+    },
+    {
+      "role": "Sales Manager"
+    },
+    {
+      "role": "System Manager"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "doctype": "Report",
+  "name": "AX Executive Calls",
+  "report_name": "AX Executive Calls",
+  "module": "AlphaX Calling",
+  "ref_doctype": "Lead",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "roles": [
+    {
+      "role": "Sales User"
+    },
+    {
+      "role": "Sales Manager"
+    },
+    {
+      "role": "System Manager"
+    }
+  ]
+}

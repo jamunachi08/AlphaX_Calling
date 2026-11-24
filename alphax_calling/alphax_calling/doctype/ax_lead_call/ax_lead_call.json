@@ -1,0 +1,97 @@
+{
+  "doctype": "DocType",
+  "name": "AX Lead Call",
+  "module": "AlphaX Calling",
+  "autoname": "hash",
+  "engine": "InnoDB",
+  "field_order": [
+    "lead",
+    "executive",
+    "direction",
+    "call_status",
+    "outcome",
+    "note",
+    "callback_owner",
+    "due_at",
+    "completed_by",
+    "completed_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "lead",
+      "label": "Lead",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "Lead",
+      "search_index": 1
+    },
+    {
+      "fieldname": "executive",
+      "label": "Logged By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User",
+      "search_index": 1
+    },
+    {
+      "fieldname": "direction",
+      "label": "Direction",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "Inbound\nOutbound"
+    },
+    {
+      "fieldname": "call_status",
+      "label": "Reported Result",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "outcome",
+      "label": "Outcome",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "note",
+      "label": "Notes",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "callback_owner",
+      "label": "Callback Owner",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User",
+      "search_index": 1
+    },
+    {
+      "fieldname": "due_at",
+      "label": "Callback Due",
+      "fieldtype": "Datetime",
+      "read_only": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "completed_by",
+      "label": "Completed By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User"
+    },
+    {
+      "fieldname": "completed_at",
+      "label": "Completed At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    }
+  ],
+  "track_changes": 1
+}
