@@ -1,4 +1,4 @@
-# AlphaX Calling v0.1.0
+# AlphaX Calling v0.1.1
 
 A standalone Frappe app targeting ERPNext v15. Open a saved Lead and use the Calling menu. Call mobile and Call phone launch the device's registered telephone handler. An installed and provisioned softphone can handle the call. Log call is a separate, explicit action. Incoming calls can also be logged manually. No carrier account is bundled.
 
@@ -9,7 +9,7 @@ Extract the ZIP. The directory containing pyproject.toml is the app repository r
     cd /absolute/path/to/alphax_calling
     git init
     git add .
-    git -c user.name="Staging Installer" -c user.email="installer@localhost" commit -m "AlphaX Calling v0.1.0"
+    git -c user.name="Staging Installer" -c user.email="installer@localhost" commit -m "AlphaX Calling v0.1.1"
     cd /absolute/path/to/frappe-bench
     bench get-app file:///absolute/path/to/alphax_calling
     bench --site YOUR-STAGING-SITE install-app alphax_calling
@@ -38,4 +38,4 @@ Open AX Executive Calls in the Desk search to see counts for the rolling 30 days
 
 ## Next integration milestone
 
-Evaluate the deployed neotec_voice and Frappe Telephony versions on staging. Select one provider call log as the authoritative source for carrier calls and link manual call records explicitly if reconciled. Next integrations are authenticated event delivery, browser audio, inbound caller matching and measured talk time. Carrier integration, recordings, WhatsApp and automatic Opportunity links are outside v0.1.0.
+Evaluate the deployed neotec_voice and Frappe Telephony versions on staging. Select one provider call log as the authoritative source for carrier calls and link manual call records explicitly if reconciled. Next integrations are authenticated event delivery, browser audio, inbound caller matching and measured talk time. Carrier integration, recordings, WhatsApp and automatic Opportunity links are outside v0.1.1.

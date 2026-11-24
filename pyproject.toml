@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alphax_calling"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lead calling and callback management for ERPNext"
 requires-python = ">=3.10"
 authors = [{name="AlphaX"}]
@@ -13,4 +13,4 @@ authors = [{name="AlphaX"}]
 include = ["alphax_calling*"]
 
 [tool.setuptools.package-data]
-alphax_calling = ["modules.txt", "public/js/*.js", "**/*.json"]
+alphax_calling = ["modules.txt", "patches.txt", "public/js/*.js", "**/*.json"]
