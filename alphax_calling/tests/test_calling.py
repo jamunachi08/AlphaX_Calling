@@ -108,3 +108,30 @@ class TestCalling(FrappeTestCase):
             self.assertFalse(events.provider_event()["ok"])
         finally:
             frappe.get_request_header = original
+
+
+class TestSettings(FrappeTestCase):
+    def test_validation_and_readiness(self):
+        from alphax_calling import setup
+        from alphax_calling.config import get_settings
+        doc = frappe.get_doc("AX Calling Settings")
+        doc.twilio_account_sid = "XX123"
+        with self.assertRaises(frappe.ValidationError):
+            doc.save()
+        doc = frappe.get_doc("AX Calling Settings")
+        doc.provider = "Carrier SIP Bridge"
+        doc.append("business_lines", {"number": "011 222 3333", "company": frappe.defaults.get_global_default("company"),
+                                      "caller_id_registered": 1, "active": 1})
+        doc.save()
+        self.assertIn("+966112223333", get_settings().business_lines)
+        r = setup.readiness()
+        self.assertIn("checks", r)
+        self.assertFalse(r["ready"])  # no acceptance evidence yet
+
+    def test_bridge_selftest_rolls_back(self):
+        from alphax_calling import setup
+        before = frappe.db.count("AX Lead Call")
+        steps = setup._bridge_test(frappe._dict(webhook_secret="x" * 64, default_cc="966", business_lines={},
+                                                enabled=True, callback_owner=None, missed_callback_minutes=60))
+        self.assertEqual(frappe.db.count("AX Lead Call"), before)
+        self.assertTrue(steps[-1]["ok"], steps)

@@ -1,0 +1,70 @@
+{
+  "doctype": "DocType",
+  "name": "AX Acceptance Test",
+  "module": "AlphaX Calling",
+  "custom": 0,
+  "istable": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "test_name",
+    "pass_condition",
+    "result",
+    "tested_on",
+    "tester",
+    "call_ids",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "test_name",
+      "label": "Test",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "pass_condition",
+      "label": "Pass condition",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "result",
+      "label": "Result",
+      "fieldtype": "Select",
+      "options": "Not run\nPass\nFail",
+      "default": "Not run",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "tested_on",
+      "label": "Tested on",
+      "fieldtype": "Date",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "tester",
+      "label": "Tester",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "call_ids",
+      "label": "Call IDs (anonymised)",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Observed result",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "links": [],
+  "states": [],
+  "permissions": [],
+  "creation": "2026-11-25 12:00:00.000000",
+  "modified": "2026-11-25 12:00:00.000000",
+  "modified_by": "Administrator",
+  "owner": "Administrator"
+}

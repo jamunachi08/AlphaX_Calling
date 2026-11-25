@@ -42,9 +42,9 @@ def visible_same_number(number, exclude=None, user=None):
             if n != exclude and frappe.has_permission("Lead", "read", doc=n, user=user)]
 
 
-def pick_callback_owner(lead_doc):
-    """Lead owner if active and allowed to write, else the configured default, else None."""
-    for user in (lead_doc.get("lead_owner"), get_settings().callback_owner):
+def pick_callback_owner(lead_doc, extra=None):
+    """Lead owner, then the business number's inbound owner, then the default owner: first active user with write access."""
+    for user in (lead_doc.get("lead_owner"), extra, get_settings().callback_owner):
         if user and frappe.db.get_value("User", user, "enabled") and frappe.has_permission(
                 "Lead", ptype="write", doc=lead_doc, user=user):
             return user

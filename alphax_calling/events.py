@@ -32,7 +32,7 @@ def _clean(value, limit=140):
 @frappe.rate_limit(limit=1200, seconds=60)
 def provider_event():
     cfg = get_settings()
-    if not cfg.webhook_secret:
+    if not cfg.enabled or not cfg.webhook_secret:
         return _fail(503, "Provider events are not configured.")
     body = frappe.request.get_data() or b""
     if not utils.verify_signature(cfg.webhook_secret, frappe.get_request_header("X-AlphaX-Timestamp"), body,

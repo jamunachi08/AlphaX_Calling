@@ -64,7 +64,7 @@ frappe.ui.form.on("Lead", {
         };
         const open_log = async () => { const p = await panel(); log_dialog(p, p.pending[0]); };
 
-        const dial = async fieldname => {
+        const dial = async (fieldname, phone_app) => {
             let r = await frappe.xcall(api + "dial_number", {lead, fieldname});
             if (r.needs_confirmation) {
                 const ok = await new Promise(res => frappe.confirm(
@@ -73,13 +73,21 @@ frappe.ui.form.on("Lead", {
                 if (!ok) return;
                 r = await frappe.xcall(api + "dial_number", {lead, fieldname, confirmed: 1});
             }
-            window.location.href = "tel:" + r.number;
+            if (ax.softphone.available() && !phone_app) {
+                await ax.softphone.dial(r.number, r.attempt, frm.doc.lead_name || lead);
+                await new Promise(res => setTimeout(res, 3000));  // let the carrier's end event arrive
+            } else {
+                window.location.href = "tel:" + r.number;
+            }
             const p = await panel();
             log_dialog(p, p.pending.find(x => x.name === r.attempt));  // prompt for the result after the call
         };
 
         for (const [field, label] of [["mobile_no", "Call mobile"], ["phone", "Call phone"]]) {
             if (frm.doc[field]) frm.add_custom_button(__(label), () => dial(field), menu);
+        }
+        if (ax.softphone.available() && frm.doc.mobile_no) {
+            frm.add_custom_button(__("Call mobile with phone app"), () => dial("mobile_no", true), menu);
         }
         frm.add_custom_button(__("Log call"), open_log, menu);
 

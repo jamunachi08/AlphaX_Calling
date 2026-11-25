@@ -1,15 +1,17 @@
 # AlphaX Calling: Implementor Manual
 
-For implementation leads, Frappe developers, telephony engineers and QA · Version 0.2.0 · Target: Frappe/ERPNext v15
+For implementation leads, Frappe developers, telephony engineers and QA · Version 0.4.0 · Target: Frappe/ERPNext v15
 
 ## 0. Verification status (read first)
 
 | Layer | Status |
 |---|---|
-| Pure logic (`utils.py`: phone normalisation, scheduling, signatures, event state machine) | 16 unit tests pass: `python -m unittest alphax_calling.tests.test_utils` |
+| Pure logic (`utils.py`, `twilio_utils.py`: phone normalisation, scheduling, signatures, event state machine, Twilio token/signature/TwiML/status mapping) | 24 unit tests pass: `python -m unittest alphax_calling.tests.test_utils alphax_calling.tests.test_twilio_utils alphax_calling.tests.test_tools`. The Twilio request-signature code reproduces Twilio's documented example value. |
 | Python/JS/JSON syntax | pyflakes, compileall, `node --check`, JSON validation all clean |
 | Frappe-bound code (API, reports, hooks, doctypes, webhook) | **Not executed on a live bench by the author.** Written against Frappe v15 APIs. An integration suite is provided (`tests/test_calling.py`) and must be run on staging as the first acceptance step. |
-| Carrier, audio, caller ID, SIP | Out of scope. No carrier account existed. Needs the contracted route. |
+| Twilio adapter and browser softphone (`twilio_adapter.py`, `softphone.js`) | Written, **never run against a live Twilio account or browser**. See section 7A for what to verify. |
+| Settings form, readiness checks, connection tests, bridge-config endpoint, workspace (`setup.py`, `config.py`, settings DocType) | Written, **not executed on a bench**. Covered by `TestSettings` in the integration suite. |
+| Production Saudi carrier, caller ID, SIP trunk | Out of scope. Needs a CST-licensed carrier contract (section 7A.1). |
 
 Treat the first staging run as acceptance. Expect small fixes; none of the design depends on untested assumptions except those listed in section 11.
 
@@ -44,7 +46,7 @@ Inventory before install (brief step 1): existing Lead buttons/`doctype_js`, cal
 ## 3. Installation
 
     cd /abs/path/alphax_calling
-    git init && git add . && git -c user.name=i -c user.email=i@localhost commit -m "AlphaX Calling v0.2.0"
+    git init && git add . && git -c user.name=i -c user.email=i@localhost commit -m "AlphaX Calling v0.4.0"
     cd /abs/path/frappe-bench
     bench get-app file:///abs/path/alphax_calling
     bench --site SITE install-app alphax_calling
@@ -55,28 +57,46 @@ Inventory before install (brief step 1): existing Lead buttons/`doctype_js`, cal
 
 Serve Desk over HTTPS. Managed hosting: push to an authorised Git repository and use the provider's custom-app flow. Upgrade: `bench update --apps alphax_calling` then `migrate`. Rollback: check out the previous tag, `migrate`, `bench build`. New fields are additive; removing the app leaves `tabAX Lead Call` data in place.
 
-## 4. Configuration (site_config.json)
+## 4. Configuration: the AX Calling Settings form
 
-Set with `bench --site SITE set-config KEY VALUE` (use `--parse` for JSON values).
+Everything is configured in the app: **Desk → AlphaX Calling → Settings** (a workspace with shortcuts is created on install/migrate). Only System Manager can open it. Secrets use encrypted Password fields. The older `site_config.json` keys still work as a fallback when the form field is empty.
 
-| Key | Default | Purpose |
-|---|---|---|
-| `alphax_calling_do_not_call_field` | none | Fieldname of a Check on Lead that blocks dialing. A configured but missing field also blocks. The built-in status *Do Not Contact* always blocks. |
-| `alphax_calling_call_window` | `"09:00-21:00"` | Advisory window (site time zone). |
-| `alphax_calling_weekend_days` | `[4,5]` | Python weekday numbers (Mon=0). Default Friday/Saturday. |
-| `alphax_calling_default_country_code` | `"966"` | Used to normalise local numbers. |
-| `alphax_calling_default_callback_owner` | none | Fallback owner for missed inbound calls when the Lead owner is inactive or has no write access. |
-| `alphax_calling_missed_callback_minutes` | `60` | Due time for automatic missed-call callbacks. |
-| `alphax_calling_business_lines` | `{}` | Map of business number → company and line. Used to scope inbound matching and to fill reports. |
-| `alphax_calling_webhook_secret` | none | HMAC secret for provider events. Endpoint refuses (503) until set. |
-| `alphax_calling_event_retention_days` | `180` | Raw event retention. |
+| Section | What you enter |
+|---|---|
+| General | Calling enabled (master switch), **Provider** (Manual / Twilio / Carrier SIP Bridge), default country code, Public HTTPS URL (only behind a proxy), call window and weekend (default 09:00-21:00, Fri-Sat), do-not-call field, default callback owner, missed-call callback minutes, event retention days |
+| Business numbers (table) | Number, business line, company, caller ID registered to the company, provider reference (Twilio phone SID or trunk/DID), inbound owner, active. Numbers scope inbound matching and fill the reports |
+| Twilio | Account SID, Auth token, API key SID and secret, TwiML App SID, caller ID. Prefix checks (AC, SK, AP) and E.164 normalisation on save |
+| Carrier SIP Bridge | Signing secret (Generate secret button), SIP server, port, transport, authentication (IP allow-list or registration), username, password, outbound proxy, carrier IP addresses, codecs, concurrent channels, support contact |
+| Addresses to give the provider | The exact Voice URL, status URL, provider-event URL and bridge-config URL for this site |
+| Carrier, compliance and data | Licensed carrier, contract reference, route tested, hosting region, retention confirmed, privacy/PDPL review done. Recording is fixed at "disabled" |
+| Acceptance and release | Tested versions (Capture versions button), the seven acceptance tests with result, tester, date, anonymised call IDs and observed result, pilot approval |
+| Readiness | Live checklist (below) |
 
-Example:
+### Buttons
+- **Setup guide**: provider choice, Twilio steps with your real URLs, carrier enquiry list, bridge steps, go-live, troubleshooting.
+- **Check readiness**: scheduler, HTTPS, time zone, master switch, provider fields, business numbers, default owner, compliance records, recording off, last test, events in 24 h, review queue, reconciliation flags, acceptance results, approval. Statuses: ok, warn, fail. `ready` is true only with no failed check and all seven tests passed.
+- **Actions → Test connection**: Twilio: account and token, API key and TwiML App, Voice URL equals this site's URL, caller ID owned or verified. Bridge: secret strength, signature round-trip, and a full event-pipeline dry run that is rolled back.
+- **Actions → Generate secret**: stores a new signing secret and shows it once.
+- **Actions → Capture versions**: frappe, erpnext, app, Python, time zone.
+- **Actions → Approve pilot**: refuses unless `ready`.
 
-    bench --site SITE set-config alphax_calling_business_lines '{"+966112223333": {"company": "AlphaX Co", "business_line": "Sales"}}' --parse
-    bench --site SITE set-config alphax_calling_webhook_secret "$(openssl rand -hex 32)"
+### Fallback site_config keys
+`alphax_calling_do_not_call_field`, `alphax_calling_call_window`, `alphax_calling_weekend_days`, `alphax_calling_default_country_code`, `alphax_calling_default_callback_owner`, `alphax_calling_missed_callback_minutes`, `alphax_calling_business_lines`, `alphax_calling_webhook_secret`, `alphax_calling_twilio`, `alphax_calling_public_url`, `alphax_calling_event_retention_days`. Prefer the form. Set the site time zone (System Settings) to Asia/Riyadh.
 
-Set the site time zone (System Settings) to Asia/Riyadh; all carrier timestamps are converted to it.
+### The bridge pulls its carrier settings from the app
+`GET /api/method/alphax_calling.setup.bridge_config` with the same signature headers (empty body) returns the carrier SIP details (including the SIP password), business numbers and the event URL. `tools/alphax_fetch_config.py` does this. Carrier details are therefore entered once, in the app.
+
+### Tools (folder `tools/`, standard library only)
+- `alphax_send_event.py`: sends signed scenarios (`inbound-answered`, `inbound-missed`, `outbound-answered`, `outbound-busy`, `outbound-noanswer`) or replays one event to prove deduplication. Use it for carrier certification and acceptance tests 2-6 before real traffic exists.
+- `alphax_fetch_config.py`: signed fetch of the bridge settings.
+- `asterisk/`: a PJSIP trunk template and notes (untested starting point).
+
+### Provider-switch procedure (pilot to production)
+1. Collect the carrier answers with the Setup guide enquiry list; enter them in the compliance and carrier sections.
+2. Switch Provider to Carrier SIP Bridge; fill the SIP fields and business numbers; Generate secret.
+3. Build/configure the bridge; verify with `alphax_send_event.py`; Test connection.
+4. Re-run the seven acceptance tests on the real route; record evidence; Capture versions; Check readiness; Approve pilot.
+5. Existing history is unchanged: calls from both providers live in the same record type.
 
 ## 5. Roles and permissions
 
@@ -84,7 +104,7 @@ Set the site time zone (System Settings) to Asia/Riyadh; all carrier timestamps 
 |---|---|
 | Sales User | Lead form actions need Lead **write**. Reports are visible. Cannot open AX Lead Call records. |
 | Sales Manager | Reports; sees and resolves **review items only** (calls with no Lead) in the AX Lead Call list. |
-| System Manager | Full access to AX Lead Call and AX Call Event. |
+| System Manager | Full access to AX Lead Call, AX Call Event and the Settings form (only role that can open it). |
 
 Visibility rule (brief "Access control"): every user-facing read goes through Lead permissions. `lead_panel` requires Lead read. Reports filter calls by `frappe.get_list("Lead")`, which applies roles, User Permissions, sharing and assignment. Inbound notifications are sent only after `has_permission(Lead, read)` for the target user. Same-number warnings list only Leads the viewer can read and never state how many hidden ones exist. `AX Lead Call` list access is restricted by `permission_query_conditions`/`has_permission`.
 
@@ -135,11 +155,55 @@ Behaviour guarantees:
 
 ## 7. Browser audio and carrier integration
 
-Not included. Recommended path, in order (brief step 2):
+Browser audio is included only through the Twilio trial adapter (section 7A). For production the recommended path, in order (brief step 2):
 1. Confirm the carrier route with a softphone (two-way audio, caller ID, inbound routing, call IDs).
 2. If the carrier gives a SIP trunk, bridge WebRTC↔SIP (Frappe Telephony or LiveKit SIP). The browser dialer must call `alphax_calling.api.dial_number`, pass the returned `attempt` as the provider's client reference, and use the returned E.164 number. Do not let any dialer bypass `dial_number`; it enforces permission, Do Not Contact and creates the attempt.
 3. Write a small adapter that turns the provider's webhooks into the section 6 payload and signs them. Keep provider specifics in the adapter, not here.
 4. Keep recording disabled. Verify hosting region and retention with the carrier (see section 9).
+
+## 7A. Carrier recommendation and the included browser-calling solution
+
+### 7A.1 Honest answer on "free"
+There is **no free production carrier for Saudi Arabia**. Voice that reaches the Saudi phone network must go through a CST-licensed operator (stc, Mobily, Zain and licensed resellers such as Salam). Carriers say unlicensed international SIP for local Saudi numbers risks interruption, and spoofed or unregistered caller IDs are blocked, so the caller ID must be a number registered to your company. Typical programmable-number limits: an 05 mobile number cannot be bought as a programmable SIP number; geographic, 9200 and 800 numbers are the options. Publicly advertised starting prices quoted on a third-party comparison page (confirm directly with each carrier): Mobily Business SIP trunk about SAR 747.50 one-time plus SAR 598/month for 3 channels and 5 landline numbers; stc Business from about SAR 2,300 setup plus SAR 1,150/month for 10 extensions. Some wholesale offers require 12-month contracts. Compliance, KYC (commercial registration and local address) and lead time are the real work.
+
+**Recommendation**
+| Purpose | Choice | Cost |
+|---|---|---|
+| Prove the whole flow now (browser audio, events, callbacks, reports) | **Twilio trial** (included adapter) | Free: 30 days, no card |
+| Production for the Saudi business number | A **CST-licensed SIP trunk** from stc Business, Mobily Business or Zain Business (ask all three the brief's enquiry questions), bridged to the browser with open-source **LiveKit SIP**, **Asterisk** or **FreeSWITCH** | Carrier fees; the bridge software is free |
+
+Twilio trial limits that matter: calls and inbound only to/from **verified numbers** (up to 5, SMS verification), caller ID is the trial number or a verified number, the trial expires after 30 days, and destination countries are controlled by Geo permissions (enable Saudi Arabia and confirm). Twilio's regulatory guidelines list only toll-free (+966 800) numbers for Saudi Arabia, so do not expect a Saudi local business number from Twilio. The trial therefore proves audio, events and workflow; it cannot show your Saudi business number as caller ID. A Telnyx trial (USD 5 credit) is more restrictive: one verified number. Re-check all limits at sign-up, they change.
+
+### 7A.2 What is included
+- `twilio_adapter.get_token`: issues a short-lived browser access token (identity = hex of the Desk user).
+- `twilio_adapter.voice`: Twilio's Voice webhook. **Outbound** from the browser: dials only the exact attempt created by `dial_number` for that user and number within 5 minutes (prevents a token holder dialing arbitrary numbers). **Inbound**: matches the caller inside the company, rings the Lead owner's browser (else the default callback owner), and records a missed call with a callback owner if nobody can be rung.
+- `twilio_adapter.status`: Twilio status callbacks, translated by `twilio_utils.canonical_event` into the section 6 events and processed by the same pipeline (dedupe, ordering, terminal states). Twilio's per-leg events use `ParentCallSid` as the call ID.
+- Every webhook verifies `X-Twilio-Signature`. Browser SDK v2.19.0 (Apache-2.0) is bundled under `public/js/vendor/`, no CDN needed.
+- Lead buttons switch to the browser softphone when configured (**Call mobile with phone app** keeps `tel:`). After hang-up the outcome form opens. A small panel handles mute, hang up and incoming calls.
+- Recording is never requested.
+
+### 7A.3 Setup (staging)
+1. Create the Twilio trial. Verify up to five test mobiles (the executives' real Saudi numbers). Obtain the trial phone number (this is the caller ID).
+2. Console → Voice → Geo permissions: enable Saudi Arabia.
+3. Create an **API key** (note SID and secret). Note Account SID and Auth Token.
+4. Create a **TwiML App** with Voice Request URL `https://SITE/api/method/alphax_calling.twilio_adapter.voice`, method POST. Note its SID.
+5. Optional for inbound tests: on the trial number set "A call comes in" to the same URL (webhook, POST). In trial, only verified numbers can call in.
+6. Open **AlphaX Calling → Settings**, set Provider to Twilio, enter the Twilio fields and the caller ID, add the business number row, save, then press **Test connection** and **Check readiness**. Set `host_name` to the `https://` address (or fill Public HTTPS URL if behind a proxy).
+7. Reload Desk. The browser asks for microphone permission on the first call. Test: Lead with a verified Saudi mobile → Calling → Call mobile.
+
+Secrets are stored encrypted by Frappe. Never put them in Git. Turn on Twilio usage alerts and keep Geo permissions limited to Saudi Arabia.
+
+### 7A.4 Verify on first run (not testable without Twilio)
+1. Signature validation passes (if 403 behind a proxy, set `alphax_calling_public_url` so the URL matches what Twilio calls exactly).
+2. The webhook returns XML (the adapter uses Frappe's raw download response with `inline` disposition; confirm Twilio does not report "invalid TwiML").
+3. One outbound answered call gives one AX Lead Call with measured duration; `provider_call_id` is the Twilio parent SID.
+4. Busy / no-answer / declined map to Busy / Unanswered; talk time zero.
+5. Inbound from a verified number rings the Lead owner's open Desk tab; with Desk closed it records a missed call and creates a callback ToDo.
+6. A replayed status callback shows `Duplicate` in AX Call Event.
+7. SDK events (`accept`, `disconnect`, `incoming`, `customParameters`) behave as coded in `softphone.js`.
+
+### 7A.5 Moving to production
+Keep `dial_number`, the event contract (section 6) and all UI. Replace the Twilio adapter with: licensed trunk → SBC/bridge (LiveKit SIP, Asterisk or FreeSWITCH) → browser (SIP.js/WebRTC), and a small service that posts signed section 6 events with the attempt ID as `client_ref`. Nothing else in the app changes. Decide recording, hosting region and retention with the carrier before go-live.
 
 ## 8. Data model summary (AX Lead Call)
 

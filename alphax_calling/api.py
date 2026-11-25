@@ -77,7 +77,8 @@ def ensure_missed_callback(rec, lead_doc=None, owner=None):
     if rec.callback_owner or rec.direction != "Inbound" or rec.call_status != "Unanswered" or not rec.lead:
         return False
     lead_doc = lead_doc or frappe.get_doc("Lead", rec.lead)
-    owner = owner or pick_callback_owner(lead_doc)
+    line = get_settings().business_lines.get(rec.business_number or "") or {}
+    owner = owner or pick_callback_owner(lead_doc, line.get("inbound_owner"))
     if not owner:
         rec.review_status, rec.review_reason = "Needs Review", _("Missed call has no callback owner.")
         return False
@@ -292,6 +293,8 @@ def dial_number(lead, fieldname, confirmed=0):
     """Validate, record a dial attempt and return the E.164 number for the tel: link."""
     doc = require_lead(lead, "write")
     cfg = get_settings()
+    if not cfg.enabled:
+        frappe.throw(_("Calling is switched off in AlphaX Calling Settings."))
     if cfg.dnc_field and (not doc.meta.has_field(cfg.dnc_field) or doc.get(cfg.dnc_field)):
         frappe.throw(_("Dialing is blocked by the contact preference setting."))
     if doc.get("status") == "Do Not Contact":

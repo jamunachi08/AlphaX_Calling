@@ -1,0 +1,45 @@
+; Template. Replace the ALL_CAPS values. Choose ONE authentication style from the carrier.
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0:5060
+
+; ---- Style A: registration (username/password) ----
+[carrier-reg]
+type=registration
+outbound_auth=carrier-auth
+server_uri=sip:SIP_SERVER:SIP_PORT
+client_uri=sip:SIP_USERNAME@SIP_SERVER:SIP_PORT
+retry_interval=60
+
+[carrier-auth]
+type=auth
+auth_type=userpass
+username=SIP_USERNAME
+password=SIP_PASSWORD
+
+; ---- Common ----
+[carrier-aor]
+type=aor
+contact=sip:SIP_SERVER:SIP_PORT
+
+[carrier]
+type=endpoint
+transport=transport-udp
+context=from-carrier
+disallow=all
+allow=alaw,ulaw
+aors=carrier-aor
+outbound_auth=carrier-auth        ; remove for IP authentication
+from_user=BUSINESS_NUMBER_WITHOUT_PLUS
+direct_media=no
+rtp_symmetric=yes
+force_rport=yes
+rewrite_contact=yes
+
+; ---- Style B: IP authentication (one identify per carrier IP) ----
+[carrier-identify]
+type=identify
+endpoint=carrier
+match=CARRIER_IP_1
+; match=CARRIER_IP_2

@@ -1,0 +1,414 @@
+{
+  "doctype": "DocType",
+  "name": "AX Calling Settings",
+  "module": "AlphaX Calling",
+  "custom": 0,
+  "issingle": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "s_general",
+    "enabled",
+    "provider",
+    "default_country_code",
+    "public_url",
+    "c_general",
+    "call_window_start",
+    "call_window_end",
+    "weekend",
+    "do_not_call_field",
+    "default_callback_owner",
+    "missed_callback_minutes",
+    "event_retention_days",
+    "s_lines",
+    "business_lines",
+    "s_twilio",
+    "twilio_account_sid",
+    "twilio_auth_token",
+    "twilio_api_key_sid",
+    "twilio_api_key_secret",
+    "c_twilio",
+    "twilio_twiml_app_sid",
+    "twilio_caller_id",
+    "s_bridge",
+    "webhook_secret",
+    "carrier_sip_server",
+    "carrier_sip_port",
+    "carrier_transport",
+    "carrier_auth_mode",
+    "c_bridge",
+    "carrier_username",
+    "carrier_password",
+    "carrier_outbound_proxy",
+    "carrier_allowed_ips",
+    "carrier_codecs",
+    "carrier_max_channels",
+    "carrier_support_contact",
+    "s_urls",
+    "urls_html",
+    "s_compliance",
+    "carrier_name",
+    "contract_ref",
+    "carrier_route",
+    "c_comp",
+    "data_region",
+    "recording_policy",
+    "retention_confirmed",
+    "privacy_notice_confirmed",
+    "s_accept",
+    "tested_versions",
+    "acceptance_tests",
+    "approved_by",
+    "approved_on",
+    "c_accept",
+    "last_test_at",
+    "last_test_result",
+    "s_ready",
+    "readiness_html"
+  ],
+  "fields": [
+    {
+      "fieldname": "s_general",
+      "label": "General",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "enabled",
+      "label": "Calling enabled",
+      "fieldtype": "Check",
+      "default": "1",
+      "description": "Master switch. When off, dialing and provider events are refused."
+    },
+    {
+      "fieldname": "provider",
+      "label": "Provider",
+      "fieldtype": "Select",
+      "options": "Manual (phone app)\nTwilio\nCarrier SIP Bridge",
+      "default": "Manual (phone app)",
+      "description": "Manual: tel: link and manual logging. Twilio: browser calling through a Twilio account (free trial for the pilot). Carrier SIP Bridge: a CST-licensed Saudi carrier via your own SIP/WebRTC bridge."
+    },
+    {
+      "fieldname": "default_country_code",
+      "label": "Default country code",
+      "fieldtype": "Data",
+      "default": "966"
+    },
+    {
+      "fieldname": "public_url",
+      "label": "Public HTTPS URL",
+      "fieldtype": "Data",
+      "description": "Only if the site sits behind a proxy and its own URL is not the public one, e.g. https://crm.example.com"
+    },
+    {
+      "fieldname": "c_general",
+      "label": "",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "call_window_start",
+      "label": "Call window start (HH:MM)",
+      "fieldtype": "Data",
+      "default": "09:00"
+    },
+    {
+      "fieldname": "call_window_end",
+      "label": "Call window end (HH:MM)",
+      "fieldtype": "Data",
+      "default": "21:00"
+    },
+    {
+      "fieldname": "weekend",
+      "label": "Weekend",
+      "fieldtype": "Select",
+      "options": "Fri-Sat\nThu-Fri\nSat-Sun\nFri only\nNone",
+      "default": "Fri-Sat"
+    },
+    {
+      "fieldname": "do_not_call_field",
+      "label": "Do-not-call field on Lead",
+      "fieldtype": "Data",
+      "description": "Fieldname of a Check on Lead. Leave empty to rely on the status 'Do Not Contact'."
+    },
+    {
+      "fieldname": "default_callback_owner",
+      "label": "Default callback owner",
+      "fieldtype": "Link",
+      "options": "User",
+      "description": "Fallback owner for missed inbound calls."
+    },
+    {
+      "fieldname": "missed_callback_minutes",
+      "label": "Missed-call callback due (minutes)",
+      "fieldtype": "Int",
+      "default": "60"
+    },
+    {
+      "fieldname": "event_retention_days",
+      "label": "Keep raw provider events (days)",
+      "fieldtype": "Int",
+      "default": "180"
+    },
+    {
+      "fieldname": "s_lines",
+      "label": "Business numbers",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "business_lines",
+      "label": "Business numbers",
+      "fieldtype": "Table",
+      "options": "AX Business Line"
+    },
+    {
+      "fieldname": "s_twilio",
+      "label": "Twilio",
+      "fieldtype": "Section Break",
+      "depends_on": "eval:doc.provider=='Twilio'"
+    },
+    {
+      "fieldname": "twilio_account_sid",
+      "label": "Account SID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "twilio_auth_token",
+      "label": "Auth token",
+      "fieldtype": "Password"
+    },
+    {
+      "fieldname": "twilio_api_key_sid",
+      "label": "API key SID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "twilio_api_key_secret",
+      "label": "API key secret",
+      "fieldtype": "Password"
+    },
+    {
+      "fieldname": "c_twilio",
+      "label": "",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "twilio_twiml_app_sid",
+      "label": "TwiML App SID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "twilio_caller_id",
+      "label": "Caller ID (E.164)",
+      "fieldtype": "Data",
+      "description": "Trial number or verified caller ID in the pilot; your registered Saudi number in production."
+    },
+    {
+      "fieldname": "s_bridge",
+      "label": "Carrier SIP Bridge",
+      "fieldtype": "Section Break",
+      "depends_on": "eval:doc.provider=='Carrier SIP Bridge'"
+    },
+    {
+      "fieldname": "webhook_secret",
+      "label": "Event signing secret",
+      "fieldtype": "Password",
+      "description": "Shared with the bridge. Use the Generate secret button."
+    },
+    {
+      "fieldname": "carrier_sip_server",
+      "label": "SIP server / host",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "carrier_sip_port",
+      "label": "SIP port",
+      "fieldtype": "Int",
+      "default": "5060"
+    },
+    {
+      "fieldname": "carrier_transport",
+      "label": "Transport",
+      "fieldtype": "Select",
+      "options": "UDP\nTCP\nTLS",
+      "default": "UDP"
+    },
+    {
+      "fieldname": "carrier_auth_mode",
+      "label": "Authentication",
+      "fieldtype": "Select",
+      "options": "IP allow-list\nRegistration (username/password)"
+    },
+    {
+      "fieldname": "c_bridge",
+      "label": "",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "carrier_username",
+      "label": "SIP username",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "carrier_password",
+      "label": "SIP password",
+      "fieldtype": "Password"
+    },
+    {
+      "fieldname": "carrier_outbound_proxy",
+      "label": "Outbound proxy",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "carrier_allowed_ips",
+      "label": "Carrier IP addresses",
+      "fieldtype": "Small Text",
+      "description": "Source IPs the carrier sends from, one per line. Needed for the bridge firewall."
+    },
+    {
+      "fieldname": "carrier_codecs",
+      "label": "Codecs",
+      "fieldtype": "Data",
+      "default": "alaw,ulaw"
+    },
+    {
+      "fieldname": "carrier_max_channels",
+      "label": "Concurrent channels",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "carrier_support_contact",
+      "label": "Carrier support contact",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "s_urls",
+      "label": "Addresses to give the provider",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "urls_html",
+      "label": "Addresses",
+      "fieldtype": "HTML"
+    },
+    {
+      "fieldname": "s_compliance",
+      "label": "Carrier, compliance and data",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "carrier_name",
+      "label": "Licensed carrier / reseller",
+      "fieldtype": "Data",
+      "description": "CST-licensed operator or reseller carrying the voice traffic."
+    },
+    {
+      "fieldname": "contract_ref",
+      "label": "Contract / order reference",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "carrier_route",
+      "label": "Route tested",
+      "fieldtype": "Data",
+      "description": "Trunk, number and region used in acceptance testing."
+    },
+    {
+      "fieldname": "c_comp",
+      "label": "",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "data_region",
+      "label": "Media and metadata hosting region",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "recording_policy",
+      "label": "Recording",
+      "fieldtype": "Data",
+      "default": "Recording disabled",
+      "read_only": 1
+    },
+    {
+      "fieldname": "retention_confirmed",
+      "label": "Retention controls confirmed with provider",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "privacy_notice_confirmed",
+      "label": "Privacy / PDPL review completed",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "s_accept",
+      "label": "Acceptance and release",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "tested_versions",
+      "label": "Tested app versions",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "acceptance_tests",
+      "label": "Acceptance evidence",
+      "fieldtype": "Table",
+      "options": "AX Acceptance Test"
+    },
+    {
+      "fieldname": "approved_by",
+      "label": "Pilot approved by",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_on",
+      "label": "Pilot approved on",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "c_accept",
+      "label": "",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "last_test_at",
+      "label": "Last connection test",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_test_result",
+      "label": "Last test result",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "s_ready",
+      "label": "Readiness",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "readiness_html",
+      "label": "Readiness",
+      "fieldtype": "HTML"
+    }
+  ],
+  "links": [],
+  "states": [],
+  "index_web_pages_for_search": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ],
+  "creation": "2026-11-25 12:00:00.000000",
+  "modified": "2026-11-25 12:00:00.000000",
+  "modified_by": "Administrator",
+  "owner": "Administrator"
+}

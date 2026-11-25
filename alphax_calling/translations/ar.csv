@@ -120,3 +120,36 @@ Choose a callback owner for this missed call.,اختر مسؤولاً لمعاو
 This call is already linked to a different Lead.,هذه المكالمة مرتبطة بالفعل بعميل محتمل آخر.
 This call is not waiting for review.,هذه المكالمة ليست بانتظار المراجعة.
 {0} call linked after manager review: {1},تم ربط مكالمة {0} بعد مراجعة المدير: {1}
+Call mobile with phone app,اتصال بالجوال عبر تطبيق الهاتف
+Connecting…,جارٍ الاتصال…
+Mute,كتم الصوت
+Unmute,إلغاء الكتم
+Hang up,إنهاء المكالمة
+Incoming call,مكالمة واردة
+Accept,قبول
+Decline,رفض
+Unknown caller,متصل غير معروف
+You are already on a call.,أنت في مكالمة بالفعل.
+Browser calling is not configured.,الاتصال عبر المتصفح غير مُهيّأ.
+Setup guide,دليل الإعداد
+Check readiness,فحص الجاهزية
+Test connection,اختبار الاتصال
+Actions,إجراءات
+Generate secret,إنشاء مفتاح سري
+Capture versions,التقاط الإصدارات
+Approve pilot,اعتماد التجربة
+Approve the limited sales pilot?,هل تريد اعتماد التجربة المحدودة للمبيعات؟
+Connection test passed,نجح اختبار الاتصال
+Connection test failed,فشل اختبار الاتصال
+Copy the secret now,انسخ المفتاح السري الآن
+It is stored encrypted and will not be shown again.,يتم تخزينه مشفراً ولن يُعرض مرة أخرى.
+Create a new signing secret? The bridge must be updated with it.,هل تريد إنشاء مفتاح توقيع جديد؟ يجب تحديث الجسر به.
+Ready: all acceptance tests passed and no check has failed.,جاهز: نجحت جميع اختبارات القبول ولم يفشل أي فحص.
+"Not ready: {0} failed, {1} to review.",غير جاهز: {0} فشل، و{1} بحاجة إلى مراجعة.
+AX Calling Settings,إعدادات الاتصال
+Settings,الإعدادات
+Callback Queue,قائمة معاودة الاتصال
+Executive Calls,مكالمات الموظفين
+Review Queue,قائمة المراجعة
+Provider Events,أحداث المزوّد
+Calling is switched off in AlphaX Calling Settings.,الاتصال متوقف في إعدادات الاتصال.

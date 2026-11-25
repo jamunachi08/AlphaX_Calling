@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+- **AX Calling Settings** form is now the single place for provider setup (Manual / Twilio / Carrier SIP Bridge), business numbers, carrier SIP details, compliance records, acceptance evidence and pilot approval. site_config keys remain a fallback.
+- In-app setup guide, live readiness checklist, connection tests (Twilio API checks; bridge pipeline dry run), signing-secret generator, version capture, approval gate.
+- Signed `bridge_config` endpoint so a bridge reads carrier settings from the app. Tools for carrier certification (`alphax_send_event.py`, `alphax_fetch_config.py`) and an Asterisk template.
+- Workspace with shortcuts; per-number inbound owner; master on/off switch. 24 pure-logic tests.
+
+## 0.3.0
+- Free-pilot browser calling: Twilio trial adapter (token, voice webhook, status callbacks, signature verification), bundled Twilio Voice SDK 2.19.0 (Apache-2.0), in-browser softphone with incoming-call panel, outbound limited to the registered dial attempt.
+- Recommendation and setup for pilot vs production carrier (Implementor Manual §7A). 22 pure-logic tests.
+
 ## 0.2.0
 Corrections to 0.1.2
 - Result and outcome were free-text Data fields; now validated Select fields.

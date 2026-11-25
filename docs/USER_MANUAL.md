@@ -1,6 +1,6 @@
 # AlphaX Calling: User Manual
 
-For sales executives and sales managers · Version 0.2.0
+For sales executives and sales managers · Version 0.4.0
 
 ## 1. What it does
 
@@ -12,7 +12,7 @@ You will see:
 - **ToDo** items and notifications for your callbacks,
 - two reports: **AX Callback Queue** and **AX Executive Calls**.
 
-> This version places the call through your phone or installed softphone (a `tel:` link). It does not carry audio itself. When your company connects a carrier, calls handled by that carrier are added to the same history automatically.
+> Your company chooses how calls are placed. If **browser calling** is switched on, **Call mobile** rings through your computer's headset (section 2A). Otherwise it opens your phone or softphone through a `tel:` link and you record the result yourself. Calls handled by the carrier are added to the same history automatically.
 
 ## 2. Making a call
 
@@ -27,6 +27,14 @@ You will see:
 4. A form opens: **Record the outcome of your call**. Fill it in after you finish talking (see section 3). If you close it, nothing is lost: the Lead banner reminds you, and **Calling → Log call** reopens it.
 
 **When dialing is blocked:** the Lead has status *Do Not Contact*, a company do-not-call field is ticked, or the number is missing/invalid. Fix the Lead or ask your manager; do not work around it.
+
+## 2A. Calling in the browser (when enabled)
+
+- Click **Calling → Call mobile**. Allow microphone access when the browser asks. A small panel at the bottom right shows the call timer with **Mute** and **Hang up**.
+- Use a headset. Keep the Desk tab open: incoming calls ring in the browser as a panel with **Accept**, **Decline** and **Open Lead**.
+- When the call ends, the outcome form opens. The reported result and talk time may already be filled in from the carrier; you add the outcome, whether you spoke with the customer, and notes.
+- **Call mobile with phone app** uses your phone instead.
+- During the free trial period only pre-approved test numbers can be called, and the customer sees a trial caller ID. This is normal for the pilot test.
 
 ## 3. Recording the call
 
@@ -101,6 +109,10 @@ Set your user language to Arabic to see the Calling menu, dialogs, warnings and 
 - Log calls the same day. Write facts, not opinions; notes are visible to everyone with access to the Lead.
 - Never mark a call "spoke with the customer" unless it is true. Managers rely on it.
 - Respect Do Not Contact and the calling window.
+
+## 9A. For administrators
+
+Provider details, business numbers, call window, carrier and compliance records, acceptance results and the go-live approval are kept in **AlphaX Calling → Settings** (System Manager only). The form has a built-in setup guide, a **Test connection** button and a live **readiness** checklist. Executives and managers never need to open it.
 
 ## 10. Quick answers
 
