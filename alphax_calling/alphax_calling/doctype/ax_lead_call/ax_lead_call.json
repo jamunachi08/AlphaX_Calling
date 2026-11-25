@@ -2,35 +2,93 @@
   "doctype": "DocType",
   "name": "AX Lead Call",
   "module": "AlphaX Calling",
+  "custom": 0,
   "autoname": "hash",
   "engine": "InnoDB",
+  "creation": "2026-11-24 12:00:00.000000",
+  "modified": "2026-11-25 12:00:00.000000",
+  "modified_by": "Administrator",
+  "owner": "Administrator",
   "field_order": [
+    "s_call",
     "lead",
-    "executive",
+    "company",
+    "business_line",
     "direction",
+    "source",
     "call_status",
+    "is_final",
+    "final_source",
+    "provider_status",
+    "spoke",
     "outcome",
     "note",
+    "cb_call",
+    "executive",
+    "answered_by",
+    "counterparty_number",
+    "business_number",
+    "s_time",
+    "started_at",
+    "answered_at",
+    "ended_at",
+    "talk_seconds",
+    "s_follow",
     "callback_owner",
     "due_at",
     "completed_by",
-    "completed_at"
+    "completed_at",
+    "todo",
+    "overdue_notified",
+    "cb_follow",
+    "demo_at",
+    "event",
+    "opportunity",
+    "s_provider",
+    "provider",
+    "provider_account",
+    "provider_call_id",
+    "provider_key",
+    "last_event_at",
+    "reconcile_flag",
+    "s_review",
+    "review_status",
+    "review_reason",
+    "reviewed_by",
+    "reviewed_at",
+    "cb_review",
+    "human_updated_by",
+    "human_updated_at"
   ],
   "fields": [
+    {
+      "fieldname": "s_call",
+      "label": "Call",
+      "fieldtype": "Section Break"
+    },
     {
       "fieldname": "lead",
       "label": "Lead",
       "fieldtype": "Link",
       "read_only": 1,
       "options": "Lead",
+      "search_index": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "Company",
       "search_index": 1
     },
     {
-      "fieldname": "executive",
-      "label": "Logged By",
-      "fieldtype": "Link",
+      "fieldname": "business_line",
+      "label": "Business Line",
+      "fieldtype": "Data",
       "read_only": 1,
-      "options": "User",
       "search_index": 1
     },
     {
@@ -38,25 +96,134 @@
       "label": "Direction",
       "fieldtype": "Select",
       "read_only": 1,
-      "options": "Inbound\nOutbound"
+      "options": "Inbound\nOutbound",
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "source",
+      "label": "Source",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "Manual Log\nDialer Tap\nProvider Event"
     },
     {
       "fieldname": "call_status",
       "label": "Reported Result",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "Dialing\nRinging\nAnswered\nUnanswered\nBusy\nFailed",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "is_final",
+      "label": "Final",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "final_source",
+      "label": "Final Source",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "\nHuman\nProvider",
+      "hidden": 1
+    },
+    {
+      "fieldname": "provider_status",
+      "label": "Provider Status",
       "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "spoke",
+      "label": "Spoke With Customer",
+      "fieldtype": "Check",
       "read_only": 1
     },
     {
       "fieldname": "outcome",
       "label": "Outcome",
-      "fieldtype": "Data",
-      "read_only": 1
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "\nCallback requested\nDemo agreed\nInformation sent\nWrong number\nNo interest",
+      "in_standard_filter": 1
     },
     {
       "fieldname": "note",
       "label": "Notes",
       "fieldtype": "Small Text",
       "read_only": 1
+    },
+    {
+      "fieldname": "cb_call",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "executive",
+      "label": "Logged By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User",
+      "search_index": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "answered_by",
+      "label": "Answered By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User",
+      "search_index": 1
+    },
+    {
+      "fieldname": "counterparty_number",
+      "label": "Customer Number",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "business_number",
+      "label": "Business Number",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "s_time",
+      "label": "Timing",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "started_at",
+      "label": "Started",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "answered_at",
+      "label": "Answered",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "ended_at",
+      "label": "Ended",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "talk_seconds",
+      "label": "Talk Time (seconds)",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "s_follow",
+      "label": "Follow-up",
+      "fieldtype": "Section Break"
     },
     {
       "fieldname": "callback_owner",
@@ -85,13 +252,156 @@
       "label": "Completed At",
       "fieldtype": "Datetime",
       "read_only": 1
+    },
+    {
+      "fieldname": "todo",
+      "label": "ToDo",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "overdue_notified",
+      "label": "Overdue Notified",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "cb_follow",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "demo_at",
+      "label": "Demo At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "event",
+      "label": "Event",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "opportunity",
+      "label": "Opportunity",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "s_provider",
+      "label": "Carrier / Reconciliation",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "provider",
+      "label": "Provider",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "provider_account",
+      "label": "Provider Account",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "provider_call_id",
+      "label": "Provider Call ID",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "provider_key",
+      "label": "Provider Key",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "search_index": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "last_event_at",
+      "label": "Last Event At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reconcile_flag",
+      "label": "Needs Reconciliation",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "s_review",
+      "label": "Review & Audit",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "review_status",
+      "label": "Review Status",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "\nNeeds Review\nResolved",
+      "search_index": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "review_reason",
+      "label": "Review Reason",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reviewed_by",
+      "label": "Reviewed By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User"
+    },
+    {
+      "fieldname": "reviewed_at",
+      "label": "Reviewed At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "cb_review",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "human_updated_by",
+      "label": "Updated By",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User"
+    },
+    {
+      "fieldname": "human_updated_at",
+      "label": "Updated At",
+      "fieldtype": "Datetime",
+      "read_only": 1
     }
   ],
+  "links": [],
+  "states": [],
+  "index_web_pages_for_search": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1,
   "permissions": [
     {
       "role": "System Manager",
-      "read": 1
+      "read": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Sales Manager",
+      "read": 1,
+      "report": 1
     }
-  ],
-  "track_changes": 1
+  ]
 }

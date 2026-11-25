@@ -1,19 +1,23 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "alphax_calling"
-version = "0.1.2"
-description = "Lead calling and callback management for ERPNext"
+version = "0.2.0"
+description = "Lead calling, callbacks and provider call events for ERPNext v15"
 requires-python = ">=3.10"
-authors = [{name="AlphaX"}]
+authors = [{name = "AlphaX"}]
+
+[tool.setuptools]
+include-package-data = true
 
 [tool.setuptools.packages.find]
 include = ["alphax_calling*"]
 
 [tool.setuptools.package-data]
-alphax_calling = ["modules.txt", "patches.txt", "public/js/*.js", "**/*.json"]
+alphax_calling = ["modules.txt", "patches.txt", "public/js/*.js", "translations/*.csv", "**/*.json", "**/*.js"]
 
 [tool.bench.frappe-dependencies]
 frappe = ">=15.0.0,<16.0.0"
+erpnext = ">=15.0.0,<16.0.0"

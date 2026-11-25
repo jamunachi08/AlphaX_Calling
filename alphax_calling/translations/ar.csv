@@ -1,0 +1,122 @@
+Calling,الاتصال
+Call mobile,اتصال بالجوال
+Call phone,اتصال بالهاتف
+Log call,تسجيل مكالمة
+Log a call,تسجيل مكالمة
+Call history,سجل المكالمات
+Call history of the source Lead,سجل مكالمات العميل المحتمل المصدر
+Complete my callback,إتمام معاودة الاتصال الخاصة بي
+Reschedule my callback,إعادة جدولة معاودة الاتصال الخاصة بي
+Complete callback,إتمام معاودة الاتصال
+Complete,إتمام
+Reschedule,إعادة الجدولة
+Reschedule callback,إعادة جدولة معاودة الاتصال
+New time,الموعد الجديد
+Record the outcome of your call,سجّل نتيجة مكالمتك
+Save call,حفظ المكالمة
+Direction,الاتجاه
+Reported result,النتيجة المُبلَغ عنها
+Outcome,النتيجة النهائية
+I spoke with the customer,تحدثت مع العميل
+Talk time (minutes),مدة المكالمة (بالدقائق)
+Demo date and time,تاريخ ووقت العرض التوضيحي
+Schedule a retry,جدولة محاولة أخرى
+Callback owner,مسؤول معاودة الاتصال
+Callback due,موعد معاودة الاتصال
+Call notes,ملاحظات المكالمة
+Dial anyway?,هل تريد الاتصال على أي حال؟
+Open Lead,فتح العميل المحتمل
+Incoming call: {0},مكالمة واردة: {0}
+Callback,معاودة الاتصال
+When,الوقت
+Result,النتيجة
+Executive,الموظف
+Spoke,تم التحدث
+Minutes,دقائق
+No calls recorded.,لا توجد مكالمات مسجلة.
+You have no open callbacks on this Lead.,ليس لديك معاودات اتصال مفتوحة على هذا العميل المحتمل.
+Calls: {0} · Answered: {1} · Open callbacks: {2} ({3} overdue),المكالمات: {0} · تم الرد: {1} · معاودات الاتصال المفتوحة: {2} (متأخرة: {3})
+{0} call(s) are waiting for your outcome. Use Calling → Log call.,{0} مكالمة بانتظار تسجيل نتيجتك. استخدم الاتصال ← تسجيل مكالمة.
+Inbound,وارد
+Outbound,صادر
+Answered,تم الرد
+Unanswered,لم يتم الرد
+Busy,مشغول
+Failed,فشل
+Dialing,جارٍ الاتصال
+Ringing,يرن
+Callback requested,طلب معاودة الاتصال
+Demo agreed,تم الاتفاق على عرض توضيحي
+Information sent,تم إرسال المعلومات
+Wrong number,رقم خاطئ
+No interest,غير مهتم
+Overdue,متأخر
+Due today,مستحق اليوم
+Upcoming,قادم
+Show,عرض
+Attempts,المحاولات
+Business line,خط العمل
+Company,الشركة
+Lead,العميل المحتمل
+Customer conversations,محادثات العملاء
+Unassigned,غير مُسنَد
+From,من
+To,إلى
+Link,ربط
+Link to Lead,ربط بعميل محتمل
+Link call to Lead,ربط المكالمة بعميل محتمل
+Needs review,بحاجة إلى مراجعة
+Needed for a missed inbound call with no Lead owner.,مطلوب للمكالمة الواردة الفائتة التي لا يوجد لها مالك للعميل المحتمل.
+Team is available to Sales Managers and shows every callback on Leads you can read.,خيار الفريق متاح لمديري المبيعات ويعرض كل معاودات الاتصال على العملاء المحتملين الذين يمكنك الاطلاع عليهم.
+Report limited to the newest {0} calls. Narrow the dates.,اقتصر التقرير على أحدث {0} مكالمة. ضيّق نطاق التواريخ.
+Dialing is blocked by the contact preference setting.,الاتصال محظور بسبب إعداد تفضيلات التواصل.
+This Lead is marked Do Not Contact.,هذا العميل المحتمل مصنّف «عدم الاتصال».
+Enter a valid phone number on the Lead before dialing.,أدخل رقم هاتف صحيحاً في العميل المحتمل قبل الاتصال.
+Choose a Lead phone field.,اختر حقل هاتف العميل المحتمل.
+Today is a weekend day.,اليوم هو يوم عطلة أسبوعية.
+This is outside the call window ({0}).,هذا خارج وقت الاتصال المحدد ({0}).
+This is not a Saudi number ({0}). Check the country code.,هذا ليس رقماً سعودياً ({0}). تحقق من رمز الدولة.
+The same number is on {0} other Lead(s) you can access: {1}.,الرقم نفسه موجود لدى {0} عميل(عملاء) محتمل آخر يمكنك الاطلاع عليهم: {1}.
+The last {0} attempts on this Lead were not answered.,آخر {0} محاولات على هذا العميل المحتمل لم يتم الرد عليها.
+A callback on this Lead is overdue. Complete or reschedule it first.,هناك معاودة اتصال متأخرة على هذا العميل المحتمل. أتمّها أو أعد جدولتها أولاً.
+Five attempts in a row went unanswered. Stop calling; send a message and review the Lead status.,خمس محاولات متتالية لم يتم الرد عليها. توقف عن الاتصال، وأرسل رسالة، وراجع حالة العميل المحتمل.
+Three attempts in a row went unanswered. Try a different time of day or another channel.,ثلاث محاولات متتالية لم يتم الرد عليها. جرّب وقتاً مختلفاً من اليوم أو قناة أخرى.
+The last call reported a wrong number. Verify the number before calling again.,أفادت آخر مكالمة بأن الرقم خاطئ. تحقق من الرقم قبل الاتصال مجدداً.
+Information was sent but no follow-up is scheduled. Schedule a callback.,تم إرسال المعلومات ولكن لم تتم جدولة متابعة. حدد موعد معاودة اتصال.
+A demo was agreed. Confirm the details with the customer the day before.,تم الاتفاق على عرض توضيحي. أكّد التفاصيل مع العميل قبل يوم.
+No calls yet. Call within your working window.,لا توجد مكالمات بعد. اتصل ضمن وقت العمل المحدد.
+Invalid call reference.,مرجع المكالمة غير صالح.
+Call reference already used.,مرجع المكالمة مستخدم مسبقاً.
+Choose a valid direction and result.,اختر اتجاهاً ونتيجة صالحين.
+Choose a valid outcome.,اختر نتيجة نهائية صالحة.
+"Keep the call note within 4,000 characters.",اجعل ملاحظة المكالمة ضمن 4000 حرف.
+Only an answered call can be marked as spoken with the customer.,لا يمكن وضع علامة «تحدثت مع العميل» إلا على مكالمة تم الرد عليها.
+Talk time must be between 0 and 600 minutes.,يجب أن تكون مدة المكالمة بين 0 و600 دقيقة.
+Choose a future callback time.,اختر وقتاً مستقبلياً لمعاودة الاتصال.
+Choose an active callback owner with write access to the Lead.,اختر مسؤولاً نشطاً لمعاودة الاتصال لديه صلاحية الكتابة على العميل المحتمل.
+Choose a future date and time for the demo.,اختر تاريخاً ووقتاً مستقبليين للعرض التوضيحي.
+Call outcome updated,تم تحديث نتيجة المكالمة
+{0} call: {1},مكالمة {0}: {1}
+{0} call (carrier): {1},مكالمة {0} (من المشغّل): {1}
+Callback: {0} · {1},معاودة الاتصال: {0} · {1}
+Demo: {0} · Event {1},العرض التوضيحي: {0} · الحدث {1}
+Demo: {0},عرض توضيحي: {0}
+Spoke with the customer,تم التحدث مع العميل
+Talk time: {0} s,مدة المكالمة: {0} ثانية
+Callback completed,تم إتمام معاودة الاتصال
+Callback rescheduled,تمت إعادة جدولة معاودة الاتصال
+Call back {0},معاودة الاتصال بـ {0}
+Return missed call,الرد على مكالمة فائتة
+Overdue callback on Lead {0},معاودة اتصال متأخرة على العميل المحتمل {0}
+Only the callback owner can complete this callback.,يمكن لمسؤول معاودة الاتصال فقط إتمامها.
+Only the callback owner can reschedule this callback.,يمكن لمسؤول معاودة الاتصال فقط إعادة جدولتها.
+This callback is already completed.,تم إتمام معاودة الاتصال هذه مسبقاً.
+A callback needs a due date.,معاودة الاتصال تحتاج إلى موعد استحقاق.
+Missed call has no callback owner.,المكالمة الفائتة ليس لها مسؤول معاودة اتصال.
+Several Leads share the caller number.,عدة عملاء محتملين يشتركون في رقم المتصل.
+No Lead matches the caller number.,لا يوجد عميل محتمل مطابق لرقم المتصل.
+Outbound call has no Lead reference.,المكالمة الصادرة لا تحتوي على مرجع لعميل محتمل.
+Choose a callback owner for this missed call.,اختر مسؤولاً لمعاودة الاتصال لهذه المكالمة الفائتة.
+This call is already linked to a different Lead.,هذه المكالمة مرتبطة بالفعل بعميل محتمل آخر.
+This call is not waiting for review.,هذه المكالمة ليست بانتظار المراجعة.
+{0} call linked after manager review: {1},تم ربط مكالمة {0} بعد مراجعة المدير: {1}

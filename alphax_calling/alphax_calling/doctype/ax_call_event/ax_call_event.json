@@ -1,0 +1,100 @@
+{
+  "doctype": "DocType",
+  "name": "AX Call Event",
+  "module": "AlphaX Calling",
+  "custom": 0,
+  "autoname": "hash",
+  "engine": "InnoDB",
+  "creation": "2026-11-24 12:00:00.000000",
+  "modified": "2026-11-25 12:00:00.000000",
+  "modified_by": "Administrator",
+  "owner": "Administrator",
+  "field_order": [
+    "provider",
+    "provider_account",
+    "event_id",
+    "event_type",
+    "call_id",
+    "call",
+    "occurred_at",
+    "result",
+    "payload"
+  ],
+  "fields": [
+    {
+      "fieldname": "provider",
+      "label": "Provider",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "provider_account",
+      "label": "Provider Account",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "event_id",
+      "label": "Event ID",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "event_type",
+      "label": "Event Type",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "call_id",
+      "label": "Provider Call ID",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "call",
+      "label": "Call",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "occurred_at",
+      "label": "Occurred At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "result",
+      "label": "Result",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "Received\nApplied\nAttached\nIgnored Late\nDuplicate",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "payload",
+      "label": "Payload",
+      "fieldtype": "Code",
+      "read_only": 1,
+      "options": "JSON"
+    }
+  ],
+  "links": [],
+  "states": [],
+  "index_web_pages_for_search": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "report": 1,
+      "export": 1
+    }
+  ]
+}
