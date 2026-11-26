@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.1
+- Fix: install failed at "Updating DocTypes" with `No module named ...ax_call_event.ax_call_event`. Added the missing AX Call Event controller.
+
 ## 0.4.0
 - **AX Calling Settings** form is now the single place for provider setup (Manual / Twilio / Carrier SIP Bridge), business numbers, carrier SIP details, compliance records, acceptance evidence and pilot approval. site_config keys remain a fallback.
 - In-app setup guide, live readiness checklist, connection tests (Twilio API checks; bridge pipeline dry run), signing-secret generator, version capture, approval gate.
